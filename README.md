@@ -32,7 +32,7 @@ An ESP32-based smart parking slot monitor with a built-in web dashboard, real-ti
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/smart_parking.git
+git clone https://github.com/adarshsreekanth7-afk/smart_parking.git
 cd smart_parking
 ```
 
