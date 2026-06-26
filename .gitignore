@@ -1,2 +1,13 @@
 secrets.h
 .DS_Store
+*.o
+*.a
+*.so
+build/
+*.elf
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cache/
