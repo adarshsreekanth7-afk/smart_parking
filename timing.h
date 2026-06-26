@@ -18,7 +18,7 @@ unsigned long bootEpoch = BOOT_EPOCH;
 // ===== Get Current Unix Timestamp =====
 // Returns current Unix epoch based on bootEpoch offset
 unsigned long getEpochNow() {
-    return bootEpoch + (millis() / 1000);
+    return bootEpoch + (millis() / 1000UL);
 }
 
 // ===== Format Unix Timestamp to Human-Readable Time =====
@@ -55,7 +55,35 @@ String formatDuration(unsigned long secs) {
 // ===== Set Boot Epoch (for NTP sync or manual time set) =====
 // Call this when you have accurate time (e.g., from NTP)
 void setBootEpoch(unsigned long currentUnixTime) {
-    bootEpoch = currentUnixTime - (millis() / 1000);
+    bootEpoch = currentUnixTime - (millis() / 1000UL);
+}
+
+// ===== Synchronize Time with NTP =====
+// Connects to NTP server and updates bootEpoch
+bool syncNTP() {
+    Serial.println("[NTP] Syncing time...");
+    configTime(NTP_TIMEZONE, 0, NTP_SERVER);
+    
+    time_t now = time(nullptr);
+    int retries = 30;
+    
+    while (now < 24 * 3600 && retries--) {
+        delay(500);
+        now = time(nullptr);
+        if (retries % 5 == 0) {
+            Serial.print(".");
+        }
+    }
+    
+    if (now > 24 * 3600) {
+        setBootEpoch(now);
+        Serial.println("\n[NTP] Time synced successfully!");
+        Serial.println("[TIME] Current: " + formatRealTime(getEpochNow()));
+        return true;
+    } else {
+        Serial.println("\n[NTP] Sync failed, using fallback epoch");
+        return false;
+    }
 }
 
 #endif // TIMING_H

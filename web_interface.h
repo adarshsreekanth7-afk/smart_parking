@@ -2,6 +2,7 @@
 // web_interface.h - Web Dashboard HTML & API Endpoints
 // =====================================================
 // Generates responsive HTML dashboard and JSON API responses
+// HTML stored in PROGMEM to save RAM
 
 #ifndef WEB_INTERFACE_H
 #define WEB_INTERFACE_H
@@ -9,6 +10,7 @@
 #include "config.h"
 #include "timing.h"
 #include "state_machine.h"
+#include "data_models.h"
 
 // ===== HTML Dashboard (stored in PROGMEM to save RAM) =====
 const char htmlPage[] PROGMEM = R"rawhtml(<!DOCTYPE html>
